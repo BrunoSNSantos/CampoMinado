@@ -8,6 +8,6 @@ public class CelulaComMina extends Celula{
     @Override
     public void revelar() {
     	this.revelada = true;
-    	System.out.print("Caiau em uma bomba!");
+    	System.out.print("Caiu em uma bomba!");
     }
 }
