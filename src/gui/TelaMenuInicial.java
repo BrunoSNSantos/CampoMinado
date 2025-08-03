@@ -7,6 +7,7 @@ import java.awt.event.*;
 public class TelaMenuInicial extends JFrame {
     private JComboBox<String> comboDificuldade;
     private JButton btnIniciar;
+    private JLabel lblNewLabel_2;
 
     /**
      * Construtor da classe TelaMenuInicial.
@@ -14,26 +15,43 @@ public class TelaMenuInicial extends JFrame {
      */
 
     public TelaMenuInicial() {
-        setTitle("Campo Minado - Menu"); //Define o título da janela
-        setSize(300, 150); //Define o tamanho da janela (largura, altura)
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(TelaMenuInicial.class.getResource("/Images/Campo-Minado.png")));
+        setSize(883, 603); //Define o tamanho da janela (largura, altura)
         setLocationRelativeTo(null); //Centraliza a janela na tela
-        setDefaultCloseOperation(EXIT_ON_CLOSE); //Define a operação de fechamento padrão
-        setLayout(new BorderLayout()); //Define o layout da janela como BorderLayout
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
 
-        JLabel label = new JLabel("Selecione a dificuldade:", JLabel.CENTER); //Cria um rótulo centralizado
-        add(label, BorderLayout.NORTH); //Adiciona o rótulo na parte superior da janela
-
-        //Cria um jcombobox com as dificuldades
-        comboDificuldade = new JComboBox<>(new String[]{"Fácil", "Médio", "Difícil"});
-        add(comboDificuldade, BorderLayout.CENTER); //adiciona no centro da janela
-
-        btnIniciar = new JButton("Iniciar Jogo"); //botão para iniciar o jogo
-        add(btnIniciar, BorderLayout.SOUTH); //posiciona o botão embaixo na janela
-
+        btnIniciar = new JButton(""); //botão para iniciar o jogo
+        btnIniciar.setBackground(new Color(111, 111, 111));
+        btnIniciar.setIcon(new ImageIcon(TelaMenuInicial.class.getResource("/Images/botao.png")));
+        btnIniciar.setBounds(262, 314, 301, 30);
+        getContentPane().add(btnIniciar); //posiciona o botão embaixo na janela
+        
         //adiciona um actionlistener ao botão "Iniciar Jogo"
         //quando o botão é clicado, o metodo iniciarJogo() é chamado
         btnIniciar.addActionListener(e -> iniciarJogo());
-
+        try {        
+			        JLabel lblNewLabel = new JLabel("");
+			        lblNewLabel.setIcon(new ImageIcon(TelaMenuInicial.class.getResource("/Images/Campo-Minado.png")));
+			        lblNewLabel.setBounds(36, 28, 833, 234);
+			        getContentPane().add(lblNewLabel);
+			        
+			                //Cria um jcombobox com as dificuldades
+			                comboDificuldade = new JComboBox<>(new String[]{"Fácil", "Médio", "Difícil"});
+			                comboDificuldade.setBackground(SystemColor.windowBorder);
+			                comboDificuldade.setBounds(261, 386, 302, 30);
+			                getContentPane().add(comboDificuldade);
+			                comboDificuldade.setModel(new DefaultComboBoxModel(new String[] {"Selecione dificuldade:", "Fácil", "Médio", "Difícil"}));
+			                comboDificuldade.setFont(new Font("Bodoni MT", Font.BOLD, 19));
+			                
+			                lblNewLabel_2 = new JLabel("");
+			                lblNewLabel_2.setIcon(new ImageIcon(TelaMenuInicial.class.getResource("/Images/Captura de tela 2025-08-03 151125.png")));
+			                lblNewLabel_2.setBounds(0, -39, 921, 605);
+			                getContentPane().add(lblNewLabel_2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
         setVisible(true); //torna a janela visivel
     }
 
