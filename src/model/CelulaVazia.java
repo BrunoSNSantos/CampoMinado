@@ -18,6 +18,11 @@ public class CelulaVazia extends Celula {
 
     @Override
     public void revelar() {
-        this.revelada=true;
+        this.setRevelada(true);
+    }
+
+    @Override
+    public boolean temMina(){
+        return false;
     }
 }

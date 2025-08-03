@@ -1,10 +1,10 @@
 package model;
 
-public abstract class Celula {
-	protected int linha;
-	protected int coluna;
-	protected boolean revelada;
-	protected boolean marcada; // Adicionado para a bandeira
+public abstract class Celula implements ICelula{
+	private int linha;
+	private int coluna;
+	private boolean revelada;
+	private boolean marcada; // Adicionado para a bandeira
 
 	// Construtor responsável por inicializar a celula e definir sua posição inical
 	public Celula(int linha, int coluna) {
@@ -14,6 +14,7 @@ public abstract class Celula {
 		this.marcada = false; // Inicializa como não marcada
 	}
 
+	@Override
 	public boolean estaRevelada() {
 		return revelada;
 	}
@@ -34,12 +35,12 @@ public abstract class Celula {
 		}
 	}
 
-	public int getLinha() {
+	protected int getLinha() {
 		//não é necessario, pois a linha já é um campo da classe
 		return linha;
 	}
 
-	public int getColuna() {
+	protected int getColuna() {
 		//não é necessario, pois a coluna já é um campo da classe
 		return coluna;
 	}
