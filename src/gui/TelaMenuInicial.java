@@ -62,6 +62,16 @@ public class TelaMenuInicial extends JFrame {
      */
     private void iniciarJogo() {
         String dificuldade = (String) comboDificuldade.getSelectedItem(); //pega a dificuldade selecionada
+
+        if ("Selecione dificuldade:".equals(dificuldade)) {
+            try {
+                throw new exceptions.NenhumaDificuldadeSelecionada();
+            } catch (exceptions.NenhumaDificuldadeSelecionada ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                return; // não continua com o jogo
+            }
+        }
+
         int linhas = 0, colunas = 0, minas = 0; //define as variaveis para linhas, colunas e quantidade de minas.
 
         switch (dificuldade) {
