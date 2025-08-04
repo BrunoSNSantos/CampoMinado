@@ -30,7 +30,7 @@ public class TelaCampoMinado {
     /**
      * Carrega todas as imagens necessárias para o jogo a partir do diretório "Images".
      */
-    private void carregarImagens() {
+    public void carregarImagens() {
 
         imgFechada1 = new ImageIcon(getClass().getResource("/Images/fechada1.png"));
         imgFechada2 = new ImageIcon(getClass().getResource("/Images/fechada2.png"));
@@ -77,7 +77,7 @@ public class TelaCampoMinado {
                                     //não faz nada se a célula estiver marcada com a bandeira
                                 }
                                 else {
-                                    celula.revelar();
+                                    tabuleiro.abrir(linha, coluna);
                                 }
                             }
                         }

@@ -1,4 +1,6 @@
 package model;
+import gui.TelaCampoMinado;
+
 import java.util.Random;
 
 
@@ -7,40 +9,47 @@ public class Tabuleiro {
 	private final int colunas;
 	private final int numMinas;
 	private Celula[][] celulas;
+	private boolean primeiraJogada = true;
 
 	public Tabuleiro(int linhas, int colunas, int numMinas) {
 		this.linhas = linhas;
 		this.colunas = colunas;
 		this.numMinas = numMinas;
 		this.celulas = new Celula[linhas][colunas];
-		inicializar();
+
+		for (int i = 0; i < linhas; i++) {
+			for (int j = 0; j < colunas; j++) {
+				celulas[i][j] = new CelulaVazia(i, j);
+			}
+		}
 	}
 
-	private void inicializar() {
+	private void gerarMinas(int linhaIgnorada, int colunaIgnorada) {
 		Random rand = new Random();
 
-		// inicia o tabuleiro com todas as celulas vazias
-		for(int i = 0; i < linhas; i++) {
-			for(int j = 0; j < colunas; j++) {
+		for (int i = 0; i < linhas; i++) {
+			for (int j = 0; j < colunas; j++) {
 				celulas[i][j] = new CelulaVazia(i, j);
 			}
 		}
 
 		int minasColocadas = 0;
-		// verifica se o numero de minas colocadas já alcançou o numero que o tabuleiro deve ter de minas
-		// randomiza a posição das minas
-		while(minasColocadas<numMinas) {
+		while (minasColocadas < numMinas) {
 			int linha = rand.nextInt(linhas);
 			int coluna = rand.nextInt(colunas);
 
-			// se a posição gerada já for uma mina, ele gera uma nova posição
-			// quando não é uma mina, é transformado em uma
+			// Ignora a posição do primeiro clique e suas vizinhas
+			if (Math.abs(linha - linhaIgnorada) <= 1 && Math.abs(coluna - colunaIgnorada) <= 1) {
+				continue;
+			}
+
 			if (!(celulas[linha][coluna] instanceof CelulaComMina)) {
 				celulas[linha][coluna] = new CelulaComMina(linha, coluna);
 				minasColocadas++;
 			}
 		}
 
+		// Define as quantidades de minas ao redor
 		for (int i = 0; i < linhas; i++) {
 			for (int j = 0; j < colunas; j++) {
 				if (celulas[i][j] instanceof CelulaVazia) {
@@ -78,6 +87,10 @@ public class Tabuleiro {
 	//esse metodo revela a celula. Ele vai verificar se ela existe, se ja nao foi revelada
 	//ou se nao esta com bandeira antes de chamar o metodo
 	public void abrir(int linha, int coluna) {
+		if(primeiraJogada){
+			gerarMinas(linha, coluna);
+			primeiraJogada = false;
+		}
 		Celula celula = getCelula(linha, coluna); // recebe a celula na posição
 		if (celula != null && !celula.estaRevelada() && !celula.estaMarcada()) {
 			//verifica se a celula nao esta revelada, não esta marcada e se existe
