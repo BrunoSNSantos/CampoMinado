@@ -5,6 +5,7 @@ import model.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import audio.Som;
 
 public class TelaCampoMinado {
     private JFrame frame;
@@ -65,25 +66,27 @@ public class TelaCampoMinado {
 
                 // Adiciona um MouseListener para detectar cliques do mouse
                 botao.addMouseListener(new MouseAdapter() {
-                    @Override
+
+                    //vai verificar se é botão esquerdo ou direito
+                	@Override
                     public void mouseClicked(MouseEvent e) {
-                        //vai verificar se é botão esquerdo ou direito
+                        //se for esquerdo ele vai selecionar a celula equivalente, no entanto
+                        //vai verificar se a celula está com bandeira
                         if (SwingUtilities.isLeftMouseButton(e)) {
-                            //se for esquerdo ele vai selecionar a celula equivalente, no entanto
-                            //vai verificar se a celula está com bandeira
                             Celula celula = tabuleiro.getCelula(linha, coluna);
-                            if (celula != null) {
+                            new Thread(() -> Som.tocarSom("src/audio/somClick.wav")).start();                            if (celula != null) {
+                                //não faz nada se a célula estiver marcada com a bandeira
                                 if (celula.estaMarcada()) {
-                                    //não faz nada se a célula estiver marcada com a bandeira
                                 }
                                 else {
                                     tabuleiro.abrir(linha, coluna);
                                 }
                             }
                         }
+                        //se for direito vai adicionar ou remover bandeira
                         else if (SwingUtilities.isRightMouseButton(e)) {
-                            //se for direito vai adicionar ou remover bandeira
                             Celula celula = tabuleiro.getCelula(linha, coluna);
+                            new Thread(() -> Som.tocarSom("src/audio/somTocha.wav")).start();
                             if (celula != null && !celula.estaRevelada()) {
                                 celula.alternarMarcacao();
                             }
@@ -117,12 +120,13 @@ public class TelaCampoMinado {
                 //pega a célula correspondente do tabuleiro
                 Celula celula = tabuleiro.getCelula(i, j);
                 JButton botao = botoes[i][j]; //pega o botão correspondente na interface
-
+                
+              //entra se a celula estiver revelada
                 if (celula.estaRevelada()) {
-                    //entra se a celula estiver revelada
+                    //entra se a celula revelada tiver uma mina
                     if (celula instanceof CelulaComMina) {
-                        //entra se a celula revelada tiver uma mina
                         botao.setIcon(imgMina);
+                        new Thread(() -> Som.tocarSom("src/audio/somExplosao.wav")).start();
                         //lógica para fim de jogo (adiciona ai bruno ou leleo)
                     }
                     else if (celula instanceof CelulaVazia) {

@@ -3,6 +3,8 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import audio.MusicaFundo;
+import audio.Som;
 
 public class TelaMenuInicial extends JFrame {
     private JComboBox<String> comboDificuldade;
@@ -20,29 +22,38 @@ public class TelaMenuInicial extends JFrame {
         setLocationRelativeTo(null); //Centraliza a janela na tela
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
+        
+        MusicaFundo musica = new MusicaFundo();
+        musica.tocarMusica("src/audio/musicaMenu.wav");
 
         btnIniciar = new JButton(""); //botão para iniciar o jogo
         btnIniciar.setBackground(new Color(111, 111, 111));
         btnIniciar.setIcon(new ImageIcon(TelaMenuInicial.class.getResource("/Images/botao.png")));
         btnIniciar.setBounds(262, 314, 301, 30);
+        // Adiciona o efeito sonoro de clique do mouse no botão iniciar
+        btnIniciar.addMouseListener(efeitoClickMouse);
         getContentPane().add(btnIniciar); //posiciona o botão embaixo na janela
         
         //adiciona um actionlistener ao botão "Iniciar Jogo"
         //quando o botão é clicado, o metodo iniciarJogo() é chamado
-        btnIniciar.addActionListener(e -> iniciarJogo());
+        btnIniciar.addActionListener(e -> {
+            iniciarJogo();
+        });
         try {        
 			        JLabel lblNewLabel = new JLabel("");
 			        lblNewLabel.setIcon(new ImageIcon(TelaMenuInicial.class.getResource("/Images/Campo-Minado.png")));
 			        lblNewLabel.setBounds(36, 28, 833, 234);
 			        getContentPane().add(lblNewLabel);
 			        
-			                //Cria um jcombobox com as dificuldades
+			                //Cria um IconBox com as dificuldades
 			                comboDificuldade = new JComboBox<>(new String[]{"Fácil", "Médio", "Difícil"});
 			                comboDificuldade.setBackground(SystemColor.windowBorder);
 			                comboDificuldade.setBounds(261, 386, 302, 30);
 			                getContentPane().add(comboDificuldade);
 			                comboDificuldade.setModel(new DefaultComboBoxModel(new String[] {"Selecione dificuldade:", "Fácil", "Médio", "Difícil"}));
 			                comboDificuldade.setFont(new Font("Bodoni MT", Font.BOLD, 19));
+			                // adiciona o efeito sonoro de clique do mouse
+			                comboDificuldade.addMouseListener(efeitoClickMouse);
 			                
 			                lblNewLabel_2 = new JLabel("");
 			                lblNewLabel_2.setIcon(new ImageIcon(TelaMenuInicial.class.getResource("/Images/Captura de tela 2025-08-03 151125.png")));
@@ -55,7 +66,7 @@ public class TelaMenuInicial extends JFrame {
         setVisible(true); //torna a janela visivel
     }
 
-    /**
+    /*
      * Inicia o jogo com a dificuldade selecionada.
      * Obtem a dificuldade escolhida no jcombobox, define as dimensões do tabuleiro e o número de minas,
      * fecha a tela de menu e abre a tela principal do jogo.
@@ -83,4 +94,12 @@ public class TelaMenuInicial extends JFrame {
         dispose(); //Fecha a tela de menu
         new TelaCampoMinado(linhas, colunas, minas); //Cria e exibe a nova tela do jogo
     }
+    
+    // metodo responsavel por gerar o som de clique do mouse
+    private final MouseListener efeitoClickMouse = new MouseAdapter() {
+    	@Override
+    	public void mousePressed(MouseEvent e) {
+    		new Thread(() -> Som.tocarSom("src/audio/somClick.wav")).start();
+    	}
+    };
 }
