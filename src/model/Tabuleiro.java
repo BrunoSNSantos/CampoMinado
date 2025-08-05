@@ -103,7 +103,7 @@ public class Tabuleiro {
 			}
 		}
 	}
-	/**
+	/*
 	 * Esse metodo serve pra revelar as celulas proximas a uma celula que foi aberta e possuia 0 minas ao redor.
 	 * Esse metodo mantém o ciclo até encontrar celulas com 1 ou mais celulas ao redor.
 	 */
@@ -128,7 +128,7 @@ public class Tabuleiro {
 		}
 	}
 
-	/**
+	/*
 	 * Alterna o estado de marcação da bandeira de uma célula na posição especificada.
 	 * Uma célula só pode ser alternada se não estiver revelada.
 	 */
@@ -139,5 +139,14 @@ public class Tabuleiro {
 			//se a célula existe e não está revelada, alterna seu estado de marcação
 			celula.alternarMarcacao();
 		}
+	}
+	
+	//getters de linhas e colunas
+	public int getLinhas() {
+		return this.linhas;
+	}
+	
+	public int getColunas() {
+		return this.colunas;
 	}
 }
